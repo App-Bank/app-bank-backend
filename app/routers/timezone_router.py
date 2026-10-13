@@ -4,8 +4,8 @@ from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
-from app.models.timezone import Timezone
-from app.schemas.timezone import TimezoneResponse
+from app.models.timezone_model import Timezone
+from app.schemas.timezone_schema import TimezoneResponse
 
 router = APIRouter(prefix="/timezones", tags=["Timezones"])
 

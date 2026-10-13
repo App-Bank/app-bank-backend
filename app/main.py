@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from app.core.database import Base, engine
-from app.routers import timezone
+from app.routers import timezone_router
 
 # 1. Crea las tablas físicamente en el archivo banco.db si no existen
 Base.metadata.create_all(bind=engine)
@@ -9,7 +9,7 @@ Base.metadata.create_all(bind=engine)
 app = FastAPI(title="App Bank MVP API", version="1.0.0")
 
 # 3. Incluye router de zonas horarias
-app.include_router(timezone.router)
+app.include_router(timezone_router.router)
 
 
 @app.get("/")

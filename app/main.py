@@ -1,19 +1,39 @@
 from fastapi import FastAPI
-from app.core.database import Base, engine
-from app.routers import timezone_router, transfer_router
+from fastapi.middleware.cors import CORSMiddleware
 
-# 1. Crea las tablas físicamente en el archivo banco.db si no existen
+from app.core.database import Base, engine
+
+
 Base.metadata.create_all(bind=engine)
 
-# 2. Inicializa la aplicación FastAPI
-app = FastAPI(title="App Bank MVP API", version="1.0.0")
 
-# 3. Incluye los routers del bloque
+app = FastAPI(
+    title="Bank App API",
+    version="1.0.0"
+)
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+
+from app.routers import (
+    user_router,
+    transfer_router,
+    timezone_router
+)
+
+
+app.include_router(user_router.router)
 app.include_router(timezone_router.router)
-app.include_router(transfer_router.router)  # <-- ¡Solucionado el bloqueo!
+app.include_router(transfer_router.router)
 
 
 @app.get("/")
 def read_root():
-    return {"message": "¡El Backend del Banco está funcionando correctamente!"}
-
+    return {"message": "Backend up and running"}

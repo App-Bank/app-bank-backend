@@ -16,6 +16,9 @@ def create_new_transfer(db: Session, transfer_data: TransferCreate, current_user
     if not sender:
         raise HTTPException(status_code=404, detail="Sender account not found")
 
+    if sender.id == transfer_data.recipient_account_id:
+        raise HTTPException(status_code=400, detail="You cannot transfer money to your own account")
+
     # 2. Saldo suficiente
     if sender.balance < transfer_data.amount:
         raise HTTPException(status_code=400, detail="Insufficient balance")

@@ -24,14 +24,18 @@ app.add_middleware(
 
 from app.routers import (
     user_router,
+    account_router,
     transfer_router,
     timezone_router
 )
 
 
-app.include_router(user_router.router)
-app.include_router(timezone_router.router)
-app.include_router(transfer_router.router)
+app.include_router(
+    user_router,
+    account_router,
+    transfer_router,
+    timezone_router
+)
 
 
 @app.get("/")

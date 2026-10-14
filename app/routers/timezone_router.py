@@ -3,7 +3,7 @@ from typing import List
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
-from app.controller import timezone_controller
+from app.controllers import timezone_controller
 from app.core.database import get_db
 from app.schemas.timezone_schema import TimezoneResponse
 

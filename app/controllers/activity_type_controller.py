@@ -2,8 +2,8 @@ from fastapi import HTTPException, status
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
-from app.model.activity_type_model import ActivityType
-from app.schema.activity_type_schema import ActivityTypeCreate
+from app.models.activity_type_model import ActivityType
+from app.schemas.activity_type_schema import ActivityTypeCreate
 
 
 def get_activity_types(db:Session, skip:int = 0, limit: int = 50) -> list[ActivityType]:

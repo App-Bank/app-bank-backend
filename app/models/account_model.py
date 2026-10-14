@@ -6,7 +6,7 @@ class Account(Base):
     __tablename__ = "accounts"
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
-    user_id = Column(Integer, ForeignKey("user.id"), nullable=False)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     iban = Column(String(34), index=True, nullable=False, unique=True)
     balance = Column(Numeric(9, 2), nullable=False)
 

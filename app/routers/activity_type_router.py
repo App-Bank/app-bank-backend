@@ -1,12 +1,12 @@
 from fastapi import APIRouter, Depends, Query, status
 from sqlalchemy.orm import Session
 
-from app.controller.activity_type_controller import (
+from app.controllers.activity_type_controller import (
     create_activity_type,
     get_activity_types,
 )
-from app.database.database import get_db
-from app.schema.activity_type_schema import ActivityTypeCreate, ActivityTypeResponse
+from app.core.database import get_db
+from app.schemas.activity_type_schema import ActivityTypeCreate, ActivityTypeResponse
 
 router = APIRouter(
     prefix="/activity_type",

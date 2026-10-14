@@ -4,6 +4,26 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.core.database import Base, engine
 
 
+from app.models import(
+    account_model,
+    activity_model,
+    activity_type_model,
+    timezone_model,
+    transfer_model,
+    user_model
+)
+
+
+from app.routers import (
+    account_router,
+    activity_router,
+    activity_type_router,
+    timezone_router,
+    transfer_router,
+    user_router
+)
+
+
 Base.metadata.create_all(bind=engine)
 
 
@@ -22,20 +42,12 @@ app.add_middleware(
 )
 
 
-from app.routers import (
-    user_router,
-    account_router,
-    transfer_router,
-    timezone_router
-)
-
-
-app.include_router(
-    user_router,
-    account_router,
-    transfer_router,
-    timezone_router
-)
+app.include_router(account_router.router)
+app.include_router(activity_router.router)
+app.include_router(activity_type_router.router)
+app.include_router(timezone_router.router)
+app.include_router(transfer_router.router)
+app.include_router(user_router.router)
 
 
 @app.get("/")

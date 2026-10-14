@@ -3,7 +3,7 @@ from typing import List
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 
-from app.controller import transfer_controller
+from app.controllers import transfer_controller
 from app.core.database import get_db
 from app.schemas.transfer_schema import TransferCreate, TransferResponse
 

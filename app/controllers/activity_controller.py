@@ -1,13 +1,13 @@
-from app.model.account_model import Account
-from app.model.timezone_model import Timezone
-from app.model.transfer_model import Transfer
+from app.models.account_model import Account
+from app.models.timezone_model import Timezone
+from app.models.transfer_model import Transfer
 from fastapi import HTTPException, status
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.orm import Session
 
-from app.model.activity_model import Activity
-from app.model.activity_type_model import ActivityType
-from app.schema.activity_schema import ActivityCreate
+from app.models.activity_model import Activity
+from app.models.activity_type_model import ActivityType
+from app.schemas.activity_schema import ActivityCreate
 
 
 def get_activity(db:Session, skip:int = 0, limit: int = 50) -> list[Activity]:

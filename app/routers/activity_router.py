@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, Query, status
 from sqlalchemy.orm import Session
 
-from app.controller.activity_controller import create_activity, get_activity
-from app.database.database import get_db
-from app.schema.activity_schema import ActivityCreate, ActivityResponse
+from app.controllers.activity_controller import create_activity, get_activity
+from app.core.database import get_db
+from app.schemas.activity_schema import ActivityCreate, ActivityResponse
 
 router = APIRouter(
     prefix="/activity",
@@ -36,6 +36,3 @@ def create_new_activity(
     db:Session =Depends(get_db)  # noqa: B008
 ):
     return create_activity(db=db, activity_data=activity_data)
-
-
-

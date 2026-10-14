@@ -1,3 +1,3 @@
-from app.models.account_model import Account
+from app.models.account_model import User, Account
 
-__all__ = ["Account"]
+__all__ = ["User", "Account"]

@@ -1,3 +1,3 @@
-from app.schemas.account_schema import AccountCreate, AccountResponse
+from app.schemas.account_schema import UserCreate, UserUpdate, UserResponse, AccountCreate, AccountResponse
 
-__all__ = ["AccountCreate", "AccountResponse"]
+__all__ = ["UserCreate", "UserUpdate", "UserResponse", "AccountCreate", "AccountResponse"]

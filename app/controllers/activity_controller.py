@@ -28,7 +28,7 @@ def exist(db:Session, model_name:Transfer|Account|ActivityType|Timezone, id:int)
         )
 
 
-def create_activity(db:Session, activity_data: ActivityCreate) -> Activity:
+def create_activity(db:Session, activity_data: ActivityCreate, save: bool = True) -> Activity:
     new_activity = Activity(
         amount=activity_data.amount,
         succeeded_in=activity_data.succeeded_in,
@@ -44,8 +44,9 @@ def create_activity(db:Session, activity_data: ActivityCreate) -> Activity:
 
     try:
         db.add(new_activity)
-        db.commit()
-        db.refresh(new_activity)
+        if save:
+            db.commit()
+            db.refresh(new_activity)
         return new_activity
     
     except SQLAlchemyError as error:

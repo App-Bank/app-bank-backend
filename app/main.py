@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.core.database import Base, engine
+from app.core.database import Base, SessionLocal, engine
+from app.db.seed import run_seed
 
 
 from app.models import(
@@ -25,6 +26,13 @@ from app.routers import (
 
 
 Base.metadata.create_all(bind=engine)
+
+
+db = SessionLocal()
+try:
+    run_seed(db)
+finally:
+    db.close()
 
 
 app = FastAPI(

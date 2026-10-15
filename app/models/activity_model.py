@@ -1,4 +1,4 @@
-from sqlalchemy import Column, DateTime, ForeignKey, Integer, Numeric, String
+from sqlalchemy import Column, DateTime, ForeignKey, Integer, Numeric
 from sqlalchemy.orm import relationship
 
 from app.core.database import Base
@@ -13,7 +13,7 @@ class Activity(Base):
     transfer_id = Column(Integer, ForeignKey("transfers.id"), nullable=True)
     account_id = Column(Integer, ForeignKey("accounts.id"), nullable=True)
     activity_type_id = Column(Integer, ForeignKey("activity_types.id"), nullable=True)
-    timezone_id = Column(String, ForeignKey("timezones.id"), nullable=True)
+    timezone_id = Column(Integer, ForeignKey("timezones.id"), nullable=True)
 
     transfers = relationship("Transfer", back_populates="activities")
     accounts = relationship("Account", back_populates="activities")

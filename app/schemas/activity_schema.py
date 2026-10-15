@@ -27,10 +27,10 @@ class ActivityBase(BaseModel):
     account_id:int = Field(
         ..., description="ID of account"
     )
-    activity_type_id:str = Field(
+    activity_type_id:int = Field(
         ..., description="ID of activity type"
     )
-    timezone_id:str = Field(
+    timezone_id:int = Field(
         ..., description="ID of timezone"
     )
     
@@ -46,7 +46,7 @@ class ActivityResponse(ActivityBase):
     succeeded_in:datetime = Field(..., description="Date and time when the movement was completed")
     transfer_id:int = Field(..., description="ID of transfer")
     account_id:int = Field(..., description="ID of account")
-    activity_type_id:str = Field(..., description="ID of activity type")
-    timezone_id:str = Field(..., description="ID of timezone")
+    activity_type_id:int = Field(..., description="ID of activity type")
+    timezone_id:int = Field(..., description="ID of timezone")
 
     model_config = ConfigDict(from_attributes=True)

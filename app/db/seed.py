@@ -63,3 +63,13 @@ def run_seed(db: Session):
         if not exists:
             db.add(ActivityType(name=ay["name"],))
     db.commit()
+
+    activity_types = [
+            {"name": "Debit"},
+            {"name": "Credit"},
+        ]
+    for activity_type in activity_types:
+        exists = db.query(ActivityType).filter(ActivityType.name == activity_type["name"]).first()
+        if not exists:
+            db.add(ActivityType(name=activity_type["name"]))
+    db.commit()

@@ -38,4 +38,4 @@ def create_new_activity_type(
     activity_type_data:ActivityTypeCreate,
     db:Session =Depends(get_db)  # noqa: B008
 ):
-    return create_activity_type(db=db, activity_data=activity_type_data)
+    return create_activity_type(db=db, activity_type_data=activity_type_data)

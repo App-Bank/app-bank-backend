@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 from app.models.account_model import Account
 from app.models.timezone_model import Timezone
 from app.models.user_model import User
+from app.models.activity_type_model import ActivityType
 
 
 def run_seed(db: Session):
@@ -50,4 +51,15 @@ def run_seed(db: Session):
                     balance=acc["balance"],
                 )
             )
+    db.commit()
+
+    # 4. Activity Types
+    activity_types = [
+        {"name": "debit"},
+        {"name": "credit"},
+    ]
+    for ay in activity_types:
+        exists = db.query(ActivityType).filter(ActivityType.name == ay["name"]).first()
+        if not exists:
+            db.add(ActivityType(name=ay["name"],))
     db.commit()

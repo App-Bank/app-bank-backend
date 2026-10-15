@@ -12,7 +12,7 @@ class Activity(Base):
     succeeded_in = Column(DateTime, nullable=True, index=True)
     transfer_id = Column(Integer, ForeignKey("transfers.id"), nullable=True)
     account_id = Column(Integer, ForeignKey("accounts.id"), nullable=True)
-    activity_type_id = Column(String, ForeignKey("activity_types.id"), nullable=True)
+    activity_type_id = Column(Integer, ForeignKey("activity_types.id"), nullable=True)
     timezone_id = Column(String, ForeignKey("timezones.id"), nullable=True)
 
     transfers = relationship("Transfer", back_populates="activities")

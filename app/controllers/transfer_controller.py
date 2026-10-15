@@ -5,8 +5,7 @@ from sqlalchemy.orm import Session
 from app.models.transfer_model import Transfer
 from app.schemas.transfer_schema import TransferCreate
 
-# TODOS compañero: ajustar esta ruta cuando exista el modelo Account.
-# Ej. from app.models.account_model import Account
+
 from app.models.account_model import Account  # type: ignore
 
 

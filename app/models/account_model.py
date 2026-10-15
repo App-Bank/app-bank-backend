@@ -10,9 +10,9 @@ class Account(Base):
     iban = Column(String(34), index=True, nullable=False, unique=True)
     balance = Column(Numeric(9, 2), nullable=False)
 
-    user = relationship(
+    users = relationship(
         "User",
-        back_populates="account"
+        back_populates="accounts"
     )
     transfers_sent = relationship(
         "Transfer",

@@ -5,7 +5,7 @@ from app.controllers import user_controller
 from app.core.database import get_db
 from app.schemas.user_schema import UserCreate, UserResponse, UserUpdate
 
-router = APIRouter(prefix="/users", tags=["users"])
+router = APIRouter(prefix="/user", tags=["Users"])
 
 
 @router.post(
@@ -16,15 +16,6 @@ router = APIRouter(prefix="/users", tags=["users"])
 )
 def create_user(data: UserCreate, db: Session = Depends(get_db)):
     return user_controller.create_user(data, db)
-
-
-@router.get(
-    "/",
-    response_model=list[UserResponse],
-    summary="Fetch all users"
-)
-def list_users(db: Session = Depends(get_db)):
-    return user_controller.list_users(db)
 
 
 @router.get(

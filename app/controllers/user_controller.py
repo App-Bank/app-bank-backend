@@ -3,12 +3,7 @@ from sqlalchemy.orm import Session
 
 from app.models.user_model import User
 from app.schemas.user_schema import UserCreate, UserUpdate
-# TODO: check `hash_password` implementation
-# from app.security import hash_password
-
-
-def get_user_list(db: Session) -> list[User]:
-    return db.query(User).all()
+from app.services.security import hash_password
 
 
 def get_user(user_id: int, db: Session) -> User:
@@ -26,7 +21,7 @@ def create_user(data: UserCreate, db: Session) -> User:
     user = User(
         name=data.name,
         email=data.email,
-        # password=hash_password(data.password),
+        password=hash_password(data.password),
     )
     db.add(user)
     db.commit()
@@ -38,8 +33,8 @@ def update_user(user_id: int, data: UserUpdate, db: Session) -> User:
     user = get_user(user_id, db)
     changes = data.model_dump(exclude_unset=True)
 
-    # if "password" in changes:
-    #     changes["password"] = hash_password(changes["password"])
+    if "password" in changes:
+        changes["password"] = hash_password(changes["password"])
 
     for field, value in changes.items():
         setattr(user, field, value)

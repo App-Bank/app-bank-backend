@@ -9,4 +9,6 @@ class Timezone(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String(100), unique=True, nullable=False, index=True)
     offset = Column(String(10), nullable=False)
-    # TODO: add relationships to `transfer` and `activity` tables.
+
+    activities = relationship("Activity", back_populates="timezones")
+    transfers = relationship("Transfer", back_populates="timezones")

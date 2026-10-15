@@ -4,17 +4,26 @@ from pydantic import BaseModel, ConfigDict, Field
 
 
 class ActivityTypeBase(BaseModel):
-    name:Literal["Debit", "Credit"] = Field(
+    name:Literal["debit", "credit"] = Field(
         ...,
         description="Name of the activity type",
-        examples=["Debit", "Credit"]
+        examples=["debit", "credit"]
     )
+
 
 class ActivityTypeCreate(ActivityTypeBase):
     pass
 
     
 class ActivityTypeResponse(ActivityTypeBase):
-    id:int = Field(...,description="PK database", examples=[1])
-    name:str = Field(..., description="Name of the activity type", examples=["Debit", "Credit"])
+    id:int = Field(
+        ...,
+        description="PK database",
+        examples=[1]
+    )
+    name:str = Field(
+        ...,
+        description="Name of the activity type",
+        examples=["debit", "credit"]
+    )
     model_config = ConfigDict(from_attributes=True)

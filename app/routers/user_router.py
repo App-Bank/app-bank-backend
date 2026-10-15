@@ -19,6 +19,15 @@ def create_user(data: UserCreate, db: Session = Depends(get_db)):
 
 
 @router.get(
+    "/",
+    response_model=list[UserResponse],
+    summary="Fetch all users"
+)
+def get_user_list(db: Session = Depends(get_db)):
+    return user_controller.get_user_list(db)
+
+
+@router.get(
     "/{user_id}",
     response_model=UserResponse,
     summary="Fetch a user"

@@ -1,31 +1,58 @@
+from decimal import Decimal
+
 from fastapi import HTTPException
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
+from app.models.account_model import Account
 from app.models.user_model import User
 from app.schemas.user_schema import UserCreate, UserUpdate
 from app.services.security import hash_password
 
 
-def get_user(user_id: int, db: Session) -> User:
-    user = db.get(User, user_id)
-    if user is None:
-        raise HTTPException(status_code=404, detail="User not found")
-    return user
-
-
 def create_user(data: UserCreate, db: Session) -> User:
-    existing_user = db.query(User).filter(User.email == data.email).first()
-    if existing_user:
+    if db.query(User).filter(User.email == data.email).first():
         raise HTTPException(status_code=409, detail="Email already registered")
+
+    if db.query(Account).filter(Account.iban == data.iban).first():
+        raise HTTPException(status_code=409, detail="IBAN already registered")
 
     user = User(
         name=data.name,
         email=data.email,
         password=hash_password(data.password),
     )
-    db.add(user)
-    db.commit()
-    db.refresh(user)
+
+    try:
+        db.add(user)
+        db.flush()
+
+        account = Account(
+            user_id=user.id,
+            iban=data.iban,
+            balance=Decimal("0.00"),
+        )
+        db.add(account)
+        db.commit()
+        db.refresh(user)
+    except IntegrityError:
+        db.rollback()
+        raise HTTPException(
+            status_code=409,
+            detail="Email or IBAN already registered",
+        )
+
+    return user
+
+
+def get_user_list(db: Session) -> list[User]:
+    return db.query(User).all()
+
+
+def get_user(user_id: int, db: Session) -> User:
+    user = db.get(User, user_id)
+    if user is None:
+        raise HTTPException(status_code=404, detail="User not found")
     return user
 
 

@@ -1,27 +1,17 @@
-from fastapi import APIRouter, Depends, status
+from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
 from app.controllers import account_controller
 from app.core.database import get_db
-from app.schemas.account_schema import AccountCreate, AccountResponse
+from app.schemas.account_schema import AccountResponse
 
-router = APIRouter(prefix="/accounts", tags=["accounts"])
-
-
-@router.post(
-    "/",
-    response_model=AccountResponse,
-    status_code=status.HTTP_201_CREATED,
-    summary="Create an account"
-)
-def create_account(data: AccountCreate, db: Session = Depends(get_db)):
-    return account_controller.create_account(data, db)
+router = APIRouter(prefix="/accounts", tags=["Accounts"])
 
 
 @router.get(
     "/",
     response_model=list[AccountResponse],
-    summary="Fetch all accounts"        
+    summary="Fetch all accounts",
 )
 def list_accounts(db: Session = Depends(get_db)):
     return account_controller.list_accounts(db)
@@ -30,7 +20,7 @@ def list_accounts(db: Session = Depends(get_db)):
 @router.get(
     "/{account_id}",
     response_model=AccountResponse,
-    summary="Fetch an account"
+    summary="Fetch an account",
 )
 def get_account(account_id: int, db: Session = Depends(get_db)):
     return account_controller.get_account(account_id, db)

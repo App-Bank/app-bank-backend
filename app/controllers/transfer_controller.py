@@ -99,13 +99,17 @@ def create_new_transfer(
 
 
 def get_user_transfer_history(db: Session, current_user_id: int):
+    account = db.query(Account).filter(Account.user_id == current_user_id).first()
+    if not account:
+        return []
     return (
         db.query(Transfer)
         .filter(
             or_(
-                Transfer.sender_account_id == current_user_id,
-                Transfer.recipient_account_id == current_user_id,
+                Transfer.sender_account_id == account.id,
+                Transfer.recipient_account_id == account.id,
             )
         )
+        .order_by(Transfer.created_at.desc())
         .all()
     )

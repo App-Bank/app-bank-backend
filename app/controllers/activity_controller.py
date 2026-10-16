@@ -13,10 +13,10 @@ from app.schemas.activity_schema import ActivityCreate
 def get_activity(db:Session, skip:int = 0, limit: int = 50) -> list[Activity]:
     try:
         return db.query(Activity).offset(skip).limit(limit).all()
-    except SQLAlchemyError as error:
+    except SQLAlchemyError:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Error en la consulta de movimientos {str(error)}"  # noqa: RUF010
+            detail="Error when querying transactions"
         )   
 
 def exist(db:Session, model_name:Transfer|Account|ActivityType|Timezone, id:int)->None:
@@ -48,9 +48,9 @@ def create_activity(db:Session, activity_data: ActivityCreate) -> Activity:
         db.refresh(new_activity)
         return new_activity
     
-    except SQLAlchemyError as error:
+    except SQLAlchemyError:
         db.rollback()
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Error en la creacion de movimiento en la base de datos {str(error)}"  # noqa: RUF010
+            detail="Error when creating activity in the database"
         )

@@ -9,10 +9,10 @@ from app.schemas.activity_type_schema import ActivityTypeCreate
 def get_activity_types(db:Session, skip:int = 0, limit: int = 50) -> list[ActivityType]:
     try:
         return db.query(ActivityType).offset(skip).limit(limit).all()
-    except SQLAlchemyError as error:
+    except SQLAlchemyError:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Error en la consulta del tipo de movimiento {str(error)}"  # noqa: RUF010
+            detail="Error when querying activity types"
         )   
 
 
@@ -28,9 +28,9 @@ def create_activity_type(db:Session, activity_type_data: ActivityTypeCreate) -> 
         db.refresh(new_activity_type)
         return new_activity_type
     
-    except SQLAlchemyError as error:
+    except SQLAlchemyError:
         db.rollback()
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail=f"Error en la creacion del tipo de movimiento en la base de datos {str(error)}"  # noqa: RUF010
+            detail="Error when creating activity type in the database"
         )

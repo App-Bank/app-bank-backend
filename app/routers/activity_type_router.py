@@ -22,7 +22,7 @@ router = APIRouter(
 def read_activities(
     skip:int =Query(0,ge=0,description="Starting row number to display"),
     limit:int =Query(50,ge=1, le=50,description="Number of row limits"),
-    db: Session = Depends(get_db)  # noqa: B008
+    db: Session = Depends(get_db)
 ):
     return get_activity_types(db=db, skip=skip, limit=limit)
 
@@ -36,6 +36,6 @@ def read_activities(
 
 def create_new_activity_type(
     activity_type_data:ActivityTypeCreate,
-    db:Session =Depends(get_db)  # noqa: B008
+    db:Session =Depends(get_db)
 ):
-    return create_activity_type(db=db, activity_data=activity_type_data)
+    return create_activity_type(db=db, activity_type_data=activity_type_data)

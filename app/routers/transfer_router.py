@@ -7,6 +7,7 @@ from app.controllers import transfer_controller
 from app.core.database import get_db
 from app.schemas.transfer_schema import TransferCreate, TransferResponse
 
+# TODO: adapt code to match auth feature (currently logged user POSTs a transfer from its linked account)
 router = APIRouter(prefix="/transfers", tags=["Transfers"])
 
 
@@ -17,6 +18,7 @@ def create_transfer(transfer_data: TransferCreate, db: Session = Depends(get_db)
     return transfer_controller.create_new_transfer(db, transfer_data, current_user_id)
 
 
+# NOTE: shouldn't the history log GET from `activity` instead?
 @router.get("/history", response_model=List[TransferResponse])
 def transfer_history(db: Session = Depends(get_db)):
     # TODO auth: mismo current_user simulado hasta tener login real

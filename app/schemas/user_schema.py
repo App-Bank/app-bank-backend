@@ -1,23 +1,11 @@
-from pydantic import BaseModel, ConfigDict, EmailStr, Field
+from pydantic import BaseModel, ConfigDict, EmailStr
 
 
-# class UserCreate(BaseModel):
-#     name: str
-#     email: EmailStr
-#     password: str
-#     iban: str = Field(min_length=1, max_length=34)
-
-
-# class UserUpdate(BaseModel):
-#     name: str | None = None
-#     email: EmailStr | None = None
-#     password: str | None = None
-#     iban: str | None = Field(default=None, min_length=1, max_length=34)
+# NOTE: User creation was never an explicit assignment for the project
 
 
 class UserResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
-    id: int
     name: str
     email: EmailStr

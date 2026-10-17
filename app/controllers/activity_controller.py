@@ -10,22 +10,23 @@ from app.models.activity_type_model import ActivityType
 from app.schemas.activity_schema import ActivityCreate
 
 
-def get_activity(db:Session, skip:int = 0, limit: int = 50) -> list[Activity]:
-    try:
-        return db.query(Activity).offset(skip).limit(limit).all()
-    except SQLAlchemyError:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Error when querying transactions"
-        )   
+# def get_activity(db:Session, skip:int = 0, limit: int = 50) -> list[Activity]:
+#     try:
+#         return db.query(Activity).offset(skip).limit(limit).all()
+#     except SQLAlchemyError:
+#         raise HTTPException(
+#             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+#             detail="Error when querying transactions"
+#         )   
 
-def exist(db:Session, model_name:Transfer|Account|ActivityType|Timezone, id:int)->None:
-    existing = db.query(model_name).filter(model_name.id == id).first()
-    if not existing:
-        raise HTTPException(
-            status_code=status.HTTP_404_NOT_FOUND,
-            detail=f"{model_name.__name__} with ID {id} not found"
-        )
+# NOTE^1: What's the purpose of `exist`?
+# def exist(db:Session, model_name:Transfer|Account|ActivityType|Timezone, id:int) -> None:
+#     existing = db.query(model_name).filter(model_name.id == id).first()
+#     if not existing:
+#         raise HTTPException(
+#             status_code=status.HTTP_404_NOT_FOUND,
+#             detail=f"{model_name.__name__} with ID {id} not found"
+#         )
 
 
 def create_activity(db:Session, activity_data: ActivityCreate) -> Activity:
@@ -37,6 +38,7 @@ def create_activity(db:Session, activity_data: ActivityCreate) -> Activity:
         activity_type_id=activity_data.activity_type_id,
         timezone_id=activity_data.timezone_id
     )
+# NOTE^1
     exist(db, Transfer, activity_data.transfer_id)
     exist(db, Account, activity_data.account_id)
     exist(db, ActivityType, activity_data.activity_type_id)

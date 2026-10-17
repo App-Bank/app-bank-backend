@@ -11,6 +11,7 @@ from app.models.transfer_model import Transfer
 from app.schemas.transfer_schema import TransferCreate
 
 
+# TODO: adapt transfer logic to auth feature (transfers made from the logged user's account)
 def create_new_transfer(
     db: Session,
     transfer_data: TransferCreate,
@@ -30,12 +31,12 @@ def create_new_transfer(
             detail="You cannot transfer money to your own account",
         )
 
-    recipient = (
+    recipient_account = (
         db.query(Account)
         .filter(Account.id == transfer_data.recipient_account_id)
         .first()
     )
-    if not recipient:
+    if not recipient_account:
         raise HTTPException(status_code=404, detail="Recipient account not found")
 
     if transfer_data.amount <= 0:
@@ -44,7 +45,6 @@ def create_new_transfer(
     if sender_account.balance < transfer_data.amount:
         raise HTTPException(status_code=400, detail="Insufficient balance")
 
-    # Look up the IDs by their names rather than assuming fixed ID values.
     activity_types = {
         activity_type.name: activity_type.id
         for activity_type in db.query(ActivityType)
@@ -56,17 +56,17 @@ def create_new_transfer(
 
     try:
         sender_account.balance -= transfer_data.amount
-        recipient.balance += transfer_data.amount
+        recipient_account.balance += transfer_data.amount
 
         new_transfer = Transfer(
             sender_account_id=sender_account.id,
-            recipient_account_id=recipient.id,
+            recipient_account_id=recipient_account.id,
             amount=transfer_data.amount,
             concept=transfer_data.concept,
             timezone_id=transfer_data.timezone_id,
         )
         db.add(new_transfer)
-        db.flush()  # Assigns new_transfer.id without committing the transaction.
+        db.flush()
 
         timestamp = datetime.now(timezone.utc)
 
@@ -81,7 +81,7 @@ def create_new_transfer(
             ),
             Activity(
                 transfer_id=new_transfer.id,
-                account_id=recipient.id,
+                account_id=recipient_account.id,
                 activity_type_id=activity_types["credit"],
                 amount=transfer_data.amount,
                 succeeded_in=timestamp,
@@ -98,6 +98,7 @@ def create_new_transfer(
         raise
 
 
+# NOTE: shouldn't GET from `activity` instead?
 def get_user_transfer_history(db: Session, current_user_id: int):
     account = db.query(Account).filter(Account.user_id == current_user_id).first()
     if not account:

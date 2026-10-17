@@ -5,7 +5,6 @@ from app.controllers import account_controller
 from app.core.database import get_db
 from app.schemas.account_schema import AccountResponse
 
-# TODO: adapt code to match auth feature (currently logged user GETs his linked account data)
 router = APIRouter(prefix="/accounts", tags=["Accounts"])
 
 

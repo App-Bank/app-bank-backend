@@ -11,7 +11,6 @@ from app.models.transfer_model import Transfer
 from app.schemas.transfer_schema import TransferCreate
 
 
-# TODO: adapt transfer logic to auth feature (transfers made from the logged user's account)
 def create_new_transfer(
     db: Session,
     transfer_data: TransferCreate,
@@ -98,7 +97,6 @@ def create_new_transfer(
         raise
 
 
-# NOTE: shouldn't GET from `activity` instead?
 def get_user_transfer_history(db: Session, current_user_id: int):
     account = db.query(Account).filter(Account.user_id == current_user_id).first()
     if not account:

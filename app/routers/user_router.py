@@ -8,7 +8,6 @@ from app.schemas.user_schema import UserResponse
 router = APIRouter(prefix="/user", tags=["Users"])
 
 
-# TODO: implement log-in and auth feature via POST, somehow
 @router.get(
     "/{user_id}",
     response_model=UserResponse,

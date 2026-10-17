@@ -8,20 +8,6 @@ from app.schemas.activity_schema import ActivityCreate, ActivityResponse
 router = APIRouter(prefix="/activity", tags=["Activity"])
 
 
-# NOTE: `GET Activity` is never used but `GET Transfer` is instead
-# @router.get(
-#     "",
-#     response_model=list[ActivityResponse],
-#     summary="Read a activity",
-#     description="Seen all activities"
-# )
-# def read_activities(
-#     skip:int =Query(0,ge=0,description="Starting row number to display"),
-#     limit:int =Query(50,ge=1, le=50,description="Number of row limits"),
-#     db: Session = Depends(get_db)
-# ):
-#     return get_activity(db=db, skip=skip, limit=limit)
-
 @router.post(
     "",
     response_model=ActivityResponse,

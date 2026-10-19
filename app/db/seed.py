@@ -2,6 +2,8 @@ from decimal import Decimal
 
 from sqlalchemy.orm import Session
 
+from app.services.security import hash_password
+
 from app.models.account_model import Account
 from app.models.timezone_model import Timezone
 from app.models.user_model import User
@@ -28,7 +30,13 @@ def run_seed(db: Session):
     for u in users:
         exists = db.query(User).filter(User.email == u["email"]).first()
         if not exists:
-            db.add(User(name=u["name"], email=u["email"], password=u["password"]))
+            db.add(
+                User(
+                    name=u["name"],
+                    email=u["email"],
+                    password_hash=hash_password(u["password"]),
+                )
+            )
     db.commit()
 
     # 3. Cuentas (integridad referencial: resuelve user_id real)

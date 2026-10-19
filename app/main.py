@@ -21,7 +21,8 @@ from app.routers import (
     activity_type_router,
     timezone_router,
     transfer_router,
-    user_router
+    user_router,
+    auth_router
 )
 
 
@@ -56,6 +57,7 @@ app.include_router(activity_type_router.router)
 app.include_router(timezone_router.router)
 app.include_router(transfer_router.router)
 app.include_router(user_router.router)
+app.include_router(auth_router.router)
 
 
 @app.get("/")

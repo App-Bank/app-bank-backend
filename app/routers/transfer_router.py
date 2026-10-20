@@ -12,13 +12,13 @@ from app.schemas.transfer_schema import TransferCreate, TransferResponse
 router = APIRouter(prefix="/transfers", tags=["Transfers"])
 
 
-@router.post("/")
+@router.post("/", response_model=TransferResponse, status_code=status.HTTP_201_CREATED)
 def create_transfer(
     transfer_data: TransferCreate,
     db: Session = Depends(get_db),
     user: User = Depends(get_current_user),
 ):
-        return transfer_controller.create_new_transfer(
+    return transfer_controller.create_new_transfer(
         db, transfer_data, user.id
     )
 

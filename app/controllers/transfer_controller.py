@@ -112,3 +112,15 @@ def get_user_transfer_history(db: Session, current_user_id: int):
         .order_by(Transfer.created_at.desc())
         .all()
     )
+
+def get_account_by_iban(db: Session, iban: str, current_user_id: int):
+
+        account = db.query(Account).filter(Account.iban == iban).first()
+
+        if not account:
+            raise HTTPException(status_code=404, detail="Account not found")
+            
+        return {
+            "id": account.id,
+            "owner_name": account.users.name 
+        }

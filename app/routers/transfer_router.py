@@ -29,3 +29,11 @@ def transfer_history(
     current_user: User = Depends(get_current_user),
 ):
     return transfer_controller.get_user_transfer_history(db, current_user.id)
+
+@router.get("/accounts/{iban}")
+def get_account_by_iban(
+    iban: str,
+    db: Session = Depends(get_db),
+    current_user_id: int = Depends(get_current_user)
+):
+    return transfer_controller.get_account_by_iban(db, iban, current_user_id)

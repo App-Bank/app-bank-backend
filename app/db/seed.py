@@ -10,7 +10,6 @@ from app.models.activity_type_model import ActivityType
 
 
 def run_seed(db: Session):
-    # 2. Usuarios de prueba (idempotente por email)
     users = [
         {"name": "User Uno", "email": "user1@banco.com", "password": "test1234"},
         {"name": "User Dos", "email": "user2@banco.com", "password": "test1234"},
@@ -27,7 +26,6 @@ def run_seed(db: Session):
             )
     db.commit()
 
-    # 3. Cuentas (integridad referencial: resuelve user_id real)
     user1 = db.query(User).filter(User.email == "user1@banco.com").first()
     user2 = db.query(User).filter(User.email == "user2@banco.com").first()
 
@@ -49,7 +47,6 @@ def run_seed(db: Session):
             )
     db.commit()
 
-    # 4. Activity Types
     activity_types = [
         {"name": "debit"},
         {"name": "credit"},

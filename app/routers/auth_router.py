@@ -33,15 +33,3 @@ def user_login(
         access_token=create_access_token(user),
         token_type="bearer",
     )
-
-
-# @router.post("/logout")
-# def logout(response: Response):
-#     response.delete_cookie(
-#         key="access_token",
-#         path="/",
-#         httponly=True,
-#         secure=True,
-#         samesite="lax",
-#     )
-#     return {"message": "Logged out"}

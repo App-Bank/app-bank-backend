@@ -1,3 +1,7 @@
+from dotenv import load_dotenv
+
+load_dotenv()
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -9,7 +13,6 @@ from app.models import(
     account_model,
     activity_model,
     activity_type_model,
-    timezone_model,
     transfer_model,
     user_model
 )
@@ -18,10 +21,9 @@ from app.models import(
 from app.routers import (
     account_router,
     activity_router,
-    activity_type_router,
-    timezone_router,
     transfer_router,
-    user_router
+    user_router,
+    auth_router
 )
 
 
@@ -52,10 +54,9 @@ app.add_middleware(
 
 app.include_router(account_router.router)
 app.include_router(activity_router.router)
-app.include_router(activity_type_router.router)
-app.include_router(timezone_router.router)
 app.include_router(transfer_router.router)
 app.include_router(user_router.router)
+app.include_router(auth_router.router)
 
 
 @app.get("/")

@@ -1,7 +1,7 @@
 from datetime import datetime
 from decimal import Decimal
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, computed_field
 
 
 class ActivityBase(BaseModel):
@@ -15,7 +15,6 @@ class ActivityBase(BaseModel):
     transfer_id: int = Field(...)
     account_id: int = Field(...)
     activity_type_id: int = Field(...)
-    timezone_id: int = Field(...)
     
     
 class ActivityCreate(ActivityBase):
@@ -29,6 +28,7 @@ class ActivityResponse(ActivityBase):
     transfer_id: int = Field(...)
     account_id: int = Field(...)
     activity_type_id: int = Field(...)
-    timezone_id: int = Field(...)
+    account_iban: str
 
+    
     model_config = ConfigDict(from_attributes=True)

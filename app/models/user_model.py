@@ -7,7 +7,7 @@ class User(Base):
 
     id = Column(Integer, primary_key=True, index=True, autoincrement=True)
     name = Column(String, index=True, nullable=False)
-    email = Column(String, index=True, nullable=False, unique=True)
-    password = Column(String, index=True, nullable=False)
+    email = Column(String, nullable=False, unique=True)
+    password_hash = Column(String, nullable=False)
 
     accounts = relationship("Account", back_populates="users", uselist=False)

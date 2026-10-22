@@ -2,25 +2,14 @@ from decimal import Decimal
 
 from sqlalchemy.orm import Session
 
+from app.services.security import hash_password
+
 from app.models.account_model import Account
-from app.models.timezone_model import Timezone
 from app.models.user_model import User
 from app.models.activity_type_model import ActivityType
 
 
 def run_seed(db: Session):
-    # 1. Zonas horarias (idempotente por name)
-    timezones = [
-        {"name": "Europe/Madrid", "offset": "+01:00"},
-        {"name": "Atlantic/Canary", "offset": "+00:00"},
-    ]
-    for tz in timezones:
-        exists = db.query(Timezone).filter(Timezone.name == tz["name"]).first()
-        if not exists:
-            db.add(Timezone(name=tz["name"], offset=tz["offset"]))
-    db.commit()
-
-    # 2. Usuarios de prueba (idempotente por email)
     users = [
         {"name": "User Uno", "email": "user1@banco.com", "password": "test1234"},
         {"name": "User Dos", "email": "user2@banco.com", "password": "test1234"},
@@ -28,10 +17,15 @@ def run_seed(db: Session):
     for u in users:
         exists = db.query(User).filter(User.email == u["email"]).first()
         if not exists:
-            db.add(User(name=u["name"], email=u["email"], password=u["password"]))
+            db.add(
+                User(
+                    name=u["name"],
+                    email=u["email"],
+                    password_hash=hash_password(u["password"]),
+                )
+            )
     db.commit()
 
-    # 3. Cuentas (integridad referencial: resuelve user_id real)
     user1 = db.query(User).filter(User.email == "user1@banco.com").first()
     user2 = db.query(User).filter(User.email == "user2@banco.com").first()
 
@@ -53,7 +47,6 @@ def run_seed(db: Session):
             )
     db.commit()
 
-    # 4. Activity Types
     activity_types = [
         {"name": "debit"},
         {"name": "credit"},

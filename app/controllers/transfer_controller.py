@@ -62,7 +62,6 @@ def create_new_transfer(
             recipient_account_id=recipient_account.id,
             amount=transfer_data.amount,
             concept=transfer_data.concept,
-            timezone_id=transfer_data.timezone_id,
         )
         db.add(new_transfer)
         db.flush()
@@ -76,7 +75,6 @@ def create_new_transfer(
                 activity_type_id=activity_types["debit"],
                 amount=transfer_data.amount,
                 succeeded_in=timestamp,
-                timezone_id=transfer_data.timezone_id,
             ),
             Activity(
                 transfer_id=new_transfer.id,
@@ -84,7 +82,6 @@ def create_new_transfer(
                 activity_type_id=activity_types["credit"],
                 amount=transfer_data.amount,
                 succeeded_in=timestamp,
-                timezone_id=transfer_data.timezone_id,
             ),
         ])
 

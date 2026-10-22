@@ -15,7 +15,6 @@ class ActivityBase(BaseModel):
     transfer_id: int = Field(...)
     account_id: int = Field(...)
     activity_type_id: int = Field(...)
-    timezone_id: int = Field(...)
     
     
 class ActivityCreate(ActivityBase):
@@ -29,7 +28,6 @@ class ActivityResponse(ActivityBase):
     transfer_id: int = Field(...)
     account_id: int = Field(...)
     activity_type_id: int = Field(...)
-    timezone_id: int = Field(...)
     account_iban: str
 
     

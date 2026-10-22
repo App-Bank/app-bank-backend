@@ -13,9 +13,7 @@ class Activity(Base):
     transfer_id = Column(Integer, ForeignKey("transfers.id"), nullable=True)
     account_id = Column(Integer, ForeignKey("accounts.id"), nullable=True)
     activity_type_id = Column(Integer, ForeignKey("activity_types.id"), nullable=True)
-    timezone_id = Column(Integer, ForeignKey("timezones.id"), nullable=True)
 
     transfers = relationship("Transfer", back_populates="activities")
     accounts = relationship("Account", back_populates="activities")
     activity_types = relationship("ActivityType", back_populates="activities")
-    timezones = relationship("Timezone", back_populates="activities")

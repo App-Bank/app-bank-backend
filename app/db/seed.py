@@ -5,23 +5,11 @@ from sqlalchemy.orm import Session
 from app.services.security import hash_password
 
 from app.models.account_model import Account
-from app.models.timezone_model import Timezone
 from app.models.user_model import User
 from app.models.activity_type_model import ActivityType
 
 
 def run_seed(db: Session):
-    # 1. Zonas horarias (idempotente por name)
-    timezones = [
-        {"name": "Europe/Madrid", "offset": "+01:00"},
-        {"name": "Atlantic/Canary", "offset": "+00:00"},
-    ]
-    for tz in timezones:
-        exists = db.query(Timezone).filter(Timezone.name == tz["name"]).first()
-        if not exists:
-            db.add(Timezone(name=tz["name"], offset=tz["offset"]))
-    db.commit()
-
     # 2. Usuarios de prueba (idempotente por email)
     users = [
         {"name": "User Uno", "email": "user1@banco.com", "password": "test1234"},

@@ -12,7 +12,6 @@ class Transfer(Base):
     amount = Column(Numeric(15, 2), nullable=False)
     concept = Column(String(200), nullable=True)
     created_at = Column(DateTime, nullable=False, server_default=func.now())
-    timezone_id = Column(Integer, ForeignKey("timezones.id"), nullable=False)
 
     sender_accounts = relationship(
         "Account",
@@ -26,9 +25,5 @@ class Transfer(Base):
     )
     activities = relationship(
         "Activity", 
-        back_populates="transfers"
-    )
-    timezones = relationship(
-        "Timezone",
         back_populates="transfers"
     )

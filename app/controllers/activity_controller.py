@@ -24,7 +24,6 @@ def get_user_activities(
             Activity.transfer_id,
             Activity.account_id,
             Activity.activity_type_id,
-            Activity.timezone_id,
             Account.iban.label("account_iban")
             
         )

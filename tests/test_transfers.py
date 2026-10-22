@@ -16,7 +16,6 @@ from app.core.auth import get_current_user
 from app.core.database import Base, get_db
 from app.models.account_model import Account
 from app.models.activity_type_model import ActivityType
-from app.models.timezone_model import Timezone
 from app.models.user_model import User
 from app.routers import transfer_router
 
@@ -42,7 +41,6 @@ def client():
     db.flush()
 
     db.add_all([
-        Timezone(id=1, name="Europe/Madrid", offset="+01:00"),
         ActivityType(id=1, name="debit"),
         ActivityType(id=2, name="credit"),
     ])
@@ -73,7 +71,6 @@ def test_transfer_success(client):
         "recipient_account_id": 2,
         "amount": "10.00",
         "concept": "Alquiler",
-        "timezone_id": 1,
     }
     response = client.post("/transfers/", json=payload)
 
@@ -85,12 +82,10 @@ def test_transfer_success(client):
         "recipient_account_id",
         "amount",
         "concept",
-        "timezone_id",
         "created_at",
     }
     assert body["sender_account_id"] == 1
     assert body["recipient_account_id"] == 2
-    assert body["timezone_id"] == 1
     assert body["concept"] == "Alquiler"
     assert body["amount"] == "10.00"
 
@@ -100,7 +95,6 @@ def test_transfer_insufficient_balance(client):
         "recipient_account_id": 2,
         "amount": "500.00",
         "concept": "Demasiado",
-        "timezone_id": 1,
     }
     response = client.post("/transfers/", json=payload)
 
@@ -113,7 +107,6 @@ def test_transfer_to_own_account(client):
         "recipient_account_id": 1,
         "amount": "10.00",
         "concept": "Auto",
-        "timezone_id": 1,
     }
     response = client.post("/transfers/", json=payload)
 
